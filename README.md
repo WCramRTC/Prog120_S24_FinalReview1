@@ -1,5 +1,10 @@
 # Prog120_S24_FinalReview1
 
+[Data For Review 1](https://docs.google.com/spreadsheets/d/1eJZcYSjZbnBtxUgS4LVkgz_qJY9Mct5qShFqCvE_ZPw/edit?usp=sharing) 
+
+Create a class from data provided
+Duration Formatted should be like ( 00:00:00 )
+
 Display All Videos
 
 Display With Formatting
