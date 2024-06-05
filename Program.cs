@@ -4,23 +4,137 @@ namespace Prog120_S24_FinalReview1
 {
     internal class Program
     {
+        // Collections of Videos
+
+        static Video[] videos = new Video[2];
+
         static void Main(string[] args)
         {
-
-            // Laugh Out Loud Moments
-            // Comedy
-            // 2592
-            // 0 hours, 43 mins, 12 seconds
-            // 567794
-
-            Video tempVideo = new Video("Laugh Out Loud Moments", 0, 2592, 567794);
-
-            string tempVideoDisplayString = tempVideo.DisplayWithFormatting();
-
-            Console.WriteLine(tempVideoDisplayString);
-
+            Preload();
+            AddVideo();
+  
         } // Main
 
+        public static void Preload()
+        {
+            videos[0] = new Video("Laugh Out Loud Moments", 0, 2592, 567794);
+            videos[1] = new Video("My Morning Routine Vlog", 2, 4541, 70378);
+        }
+
+        //Create a class from data provided
+
+        //Display All Videos ( Probably need a loop )
+        public static void DisplayAllVideos()
+        {
+
+            // foreach ( TYPE varName in collection ) {}
+            foreach(Video vid in videos)
+            {
+                if(vid != null)
+                {
+                    Console.WriteLine(vid.DisplayWithFormatting());
+                }
+                
+            }
+
+        }
+
+        //Add Videos ( Collection expands if we run out of room ) ( Lecture 13 - Array Capacity  )
+        public static void AddVideo()
+        {
+            // Name
+            // Category
+            // Duration
+            // Views
+            try
+            {
+                // Prompt User for Video Information
+                Video usersVideo = GenerateUsersVideo();
+
+                int openIndex = LastAvailableIndex();
+
+                if(openIndex == -1)
+                {
+                    Console.WriteLine("The array is full");
+                    IncraseArraySize();
+                    openIndex = LastAvailableIndex();
+                }
+
+                videos[openIndex] = usersVideo;
+                DisplayAllVideos();
+
+                //
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Please enter a valid number.");
+            } 
+
+        }
+
+        // Double the array size and move the elements from the first array to the second
+        public static void IncraseArraySize()
+        {
+            // Make a temp array double the size of the first array
+            Video[] tempArray = new Video[videos.Length * 2];
+
+            // Move the elements from the first array to the second
+            for (int i = 0; i < videos.Length; i++)
+            {
+                tempArray[i] = videos[i];
+            }
+
+            // Replace the original array with the new one
+            videos = tempArray;
+        }
+
+
+        // Checks for last open element
+        public static int LastAvailableIndex()
+        {
+            // Go through each element in the array
+
+            for (int i = 0; i < videos.Length; i++)
+            {
+                // checking to see if a spot in the array is null
+                Video temp = videos[i];
+
+                if(temp == null)
+                {
+                    // returning the index of the empty space
+                    return i;
+                }
+
+            }
+
+            // If no empty space is found, return -1
+            return -1;
+        }
+
+        public static Video GenerateUsersVideo()
+        {
+            Console.Write("Enter a video name: ");
+            string videoName = Console.ReadLine();
+            Console.Write("Enter a Category name - 1 Comedy  - 2 Action - 3 Vlog - 4 Animation: ");
+            int category = int.Parse(Console.ReadLine());
+            Console.Write("Enter duration in seconds ");
+            int duration = int.Parse(Console.ReadLine());
+            Console.Write("Enter number of Views ");
+            int views = int.Parse(Console.ReadLine());
+            Console.WriteLine();
+
+            Video newVideo = new Video(videoName, category, duration, views);
+            return newVideo;
+        }
+
+
+        //Edit Videos (Refresher)
+
+        //Create Menu for everything ( Create a menu using a switch and while loop )
+
+
+        #region Examples
 
         public static void TimeFormattingExample()
         {
@@ -46,6 +160,8 @@ namespace Prog120_S24_FinalReview1
             //Console.WriteLine(seconds);
             Console.WriteLine(formattedTime);
         }
+
+        #endregion Examples
 
     } // class Program
 
@@ -161,16 +277,7 @@ namespace Prog120_S24_FinalReview1
 
 } // namespace
 
-//Create a class from data provided
 
-
-//Display All Videos ( Probably need a loop )
-
-
-
-//Add Videos ( Collection expands if we run out of room ) ( Lecture 13 - Array Capacity  )
-
-//Edit Videos (Refresher)
 
 //Return all videos by category ( Using Linear Search - Returning a new array )
 
@@ -180,5 +287,5 @@ namespace Prog120_S24_FinalReview1
 
 //Get All Videos Above a certain view count ( Linear Search )
 
-//Create Menu for everything ( Create a menu using a switch and while loop )
+
 
