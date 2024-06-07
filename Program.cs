@@ -5,6 +5,7 @@ namespace Prog120_S24_FinalReview1
     internal class Program
     {
         // Collections of Videos
+        // Lecture Review 2
 
         static Video[] videos = new Video[2];
 
