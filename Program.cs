@@ -1,4 +1,5 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using System.Globalization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Prog120_S24_FinalReview1
 {
@@ -12,9 +13,79 @@ namespace Prog120_S24_FinalReview1
         static void Main(string[] args)
         {
             Preload();
-            AddVideo();
-  
+            Menu();
+
         } // Main
+
+
+        // Menu
+        // 1. Display All Videos
+        // 2. Add A Video
+        // 3. Edit a Video
+        // 4. Find By Name
+        // 5. Display Average Duration
+        // 6. Display Above a View Count
+
+        public static void Menu()
+        {
+
+            bool isRunning = true;
+
+
+            do
+            {
+                Console.WriteLine("1. Display All Videos");
+                Console.WriteLine("2. Add A Video");
+                Console.WriteLine("3. Find By Name");
+                Console.WriteLine("4. Display Average Duration");
+                Console.WriteLine("5. Display Above a View Count");
+                Console.WriteLine("6. Edit a Video (Optional)");
+                Console.WriteLine("7. Exit");
+
+                Console.Write("Please Enter Your Choice: ");
+                string userChoice = Console.ReadLine();
+
+                switch(userChoice)
+                {
+                    case "1":
+                        DisplayAllVideos();
+                        break;
+                    case "2":
+                        AddVideo();
+                        break;
+                    case "3":
+
+                        break;
+                    case "4":
+                        FindAndDisplayByName();
+                        break;
+                    case "5":
+                        Console.WriteLine($"Average Duration of Videos are {AverageLengthOfVideos()}");
+                        break;
+                    case "6":
+                        Console.Write("Enter a view count: ");
+                        string userInput = Console.ReadLine();
+                        int viewCount = int.Parse(userInput);
+
+                        DisplayAllVideosAboveViewCount(viewCount);
+
+                        break;
+                    case "7":
+                        isRunning = false;
+                        Console.WriteLine("Thank you!");
+                        break;
+                    default:
+                        Console.WriteLine("Enter a valid command");
+                        break;
+
+
+                }
+                Console.WriteLine("\n\n");
+            } while (isRunning);
+
+  
+
+        }
 
         public static void Preload()
         {
@@ -130,9 +201,144 @@ namespace Prog120_S24_FinalReview1
         }
 
 
-        //Edit Videos (Refresher)
+        // Edit Videos (Optional - 15) (Refresher)
+        // - 1 List all videos including their index ( or find the video by searching and get the index )
+        // - 2 Give an option for the user to change different fields, including canceling the option
 
         //Create Menu for everything ( Create a menu using a switch and while loop )
+
+
+        // Not Included In Final : Return all videos by category ( Using Linear Search - Returning a new array )
+
+        //Find and Display Video by Name ( Using Linear Search )
+
+        // void FindAndDisplayByName()
+        // Method: Searches through your array, checks for a name, displays result if found
+
+        // 1. Remove case sensitivity
+            // How to remove case sensitivity
+
+        // 2. Display a message incase video is not found
+
+        //public static void FindAndDisplayByName(string nameToSearchFor)
+        //{
+        //    // Converting the users argument into all uppercase
+        //    nameToSearchFor = nameToSearchFor.ToLower();
+        //    // Find = Seach through an array
+        //    // Step 1: Loop through our array
+        //    for (int i = 0; i < videos.Length; i++)
+        //    {
+        //        Video currentVideo = videos[i];
+
+        //        // Compare the nameToSearchFor to the currentVideo.name
+        //        // If they are the same, display information
+        //        if(currentVideo.Name.ToLower() == nameToSearchFor)
+        //        {
+        //            // If the name is found, display the information to screen
+        //            Console.WriteLine(currentVideo.DisplayWithFormatting());
+        //        }
+
+        //    }
+        //}
+
+        // Seperate our method into 2 parts
+        // 1. Is find by name
+        // 2. Is display result
+
+        public static void FindAndDisplayByName()
+        {
+            Console.Write("Enter a name to search for: ");
+            string userInput = Console.ReadLine();
+
+            int nameIndex = FindByName(userInput);
+
+
+            DisplayByName(nameIndex);
+        }
+
+        public static int FindByName(string nameToSearchFor)
+        {
+            nameToSearchFor = nameToSearchFor.ToLower();
+
+            for (int i = 0; i < videos.Length; i++)
+            {
+                Video currentVideo = videos[i];
+
+                if(nameToSearchFor == currentVideo.Name.ToLower())
+                {
+                    return i;
+                }
+            }
+
+            // Return -1 if the Video is not found
+            return -1;
+        }
+
+        // Display information based on if a video is found
+        
+        public static void DisplayByName(int videoIndex)
+        {
+            //// Check to see if the videoIndex is greater than number of elements in the array
+            //if(videoIndex > videos.Length)
+            //{
+            //    Console.WriteLine("That number is out bounds");
+            //}
+
+            if(videoIndex == -1)
+            {
+                Console.WriteLine("That video does not exists");
+            }
+            else
+            {
+                Video videoByName = videos[videoIndex];
+                Console.WriteLine(videoByName.DisplayWithFormatting());
+            }
+        }
+
+        //Get Average Length of Videos ( Loop and Operations )
+        // double AverageLengthOfVideos()
+        // Method: Return the average length of all the videos, in a second format
+        public static double AverageLengthOfVideos()
+        {
+            // Sum all then numbers
+            // Divide by number of elements
+
+            double sum = 0;
+
+            for (int i = 0; i < videos.Length; i++)
+            {
+                sum += videos[i].Duration;
+            }
+
+            // Divide by the number of elements
+            // 5 videos, / 5
+            // arrayName.Length
+            double average = sum / videos.Length;
+
+            return average;
+
+        }
+
+
+
+        //Display All Videos Above a certain view count ( Linear Search )
+        // void DisplayAllVideosAboveViewCount(int)
+        public static void DisplayAllVideosAboveViewCount(int viewCount)
+        {
+            // Keep count of how many videos are ABOVE the view count
+            // If the amount is 0, display no videos above the count
+
+            // 1. Loop through our array
+            foreach (Video currentVideo in videos)
+            {
+                // 2. Check if current view is great than the argument
+                if(currentVideo.Views > viewCount)
+                {
+                    // 3. Display if true
+                    Console.WriteLine(currentVideo.DisplayWithFormatting());
+                }
+            }
+        }
 
 
         #region Examples
@@ -160,6 +366,25 @@ namespace Prog120_S24_FinalReview1
             //Console.WriteLine(minutes);
             //Console.WriteLine(seconds);
             Console.WriteLine(formattedTime);
+        }
+
+        public static void FindByNameExamples()
+        {
+            // Testing out our method FindAndDisplayByName(string)
+            // Works: Will display the name
+            // If Not: Displays Nothing
+            //FindAndDisplayByName("Laugh Out loud Moments");
+
+            // Testing : Find by name
+            // Results : 
+            // if found return index
+            // if not found return -1
+
+            int searchForVideo = FindByName("Eternal Sunshine");
+
+            DisplayByName(searchForVideo);
+
+
         }
 
         #endregion Examples
@@ -280,13 +505,6 @@ namespace Prog120_S24_FinalReview1
 
 
 
-//Return all videos by category ( Using Linear Search - Returning a new array )
-
-//Find and Display Video by Name ( Using Linear Search )
-
-//Get Average Length of Videos ( Loop and Operations )
-
-//Get All Videos Above a certain view count ( Linear Search )
 
 
 
